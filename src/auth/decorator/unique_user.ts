@@ -1,4 +1,4 @@
-import { User } from "@/users/schemas/user.schema";
+import { User } from "@/users/schema/user.schema";
 import { getModelToken, InjectModel } from "@nestjs/mongoose";
 import {
   ValidationArguments,
@@ -17,8 +17,6 @@ export class UniqueValidator implements ValidatorConstraintInterface {
   async validate(value: any, args: ValidationArguments) {
     const filter = {};
 
-    console.log(this.userModel);
-    console.log(getModelToken(User.name));
     filter[args.property] = value;
     const count = await this.userModel.count(filter);
     return !count;

@@ -14,25 +14,4 @@ export class AppController {
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
   ) { }
-
-  //If you want skip jwt guard, use @Public()
-  @Public()
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user)
-  }
-
-  @Public()
-  // @UseGuards(JwtAuthGuard) 
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user
-  }
-
-  // @UseGuards(JwtAuthGuard)
-  @Get('profile2')
-  getProfile2(@Request() req) {
-    return req.user
-  }
 }

@@ -9,10 +9,22 @@ import MongoStore from 'connect-mongo';
 import ms from 'ms';
 import passport from "passport"
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { useContainer } from 'class-validator';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
+  );
+
+  // config class validator
+  useContainer(app.select(AppModule), {fallbackOnErrors: true})
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // loại bỏ các field không có trong DTO
+      forbidNonWhitelisted: true, // nếu có field thừa sẽ báo lỗi
+      transform: true, // chuyển đổi payload thành instance của class (giúp kiểu hóa số, boolean,...)
+    }),
   );
 
   const configService = app.get(ConfigService);
@@ -20,7 +32,7 @@ async function bootstrap() {
 
   // config global jwt guards
   const reflector = app.get(Reflector)
-  // app.useGlobalGuards(new JwtAuthGuard(reflector))
+  app.useGlobalGuards(new JwtAuthGuard(reflector))
 
   //config view engine
   app.useStaticAssets(join(__dirname, '..', 'src/public'));
@@ -44,6 +56,15 @@ async function bootstrap() {
   //config passport
   app.use(passport.initialize())
   app.use(passport.session())
+
+
+  //config cors 
+  app.enableCors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+    preflightContinue: false,
+  });
 
   await app.listen(port);
 }

@@ -11,6 +11,7 @@ import passport from "passport"
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { useContainer } from 'class-validator';
 import { ValidationPipe } from '@nestjs/common';
+import { TransformInterceptor } from './core/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -65,6 +66,10 @@ async function bootstrap() {
     credentials: true,
     preflightContinue: false,
   });
+
+
+  // config Interceptor
+  app.useGlobalInterceptors(new TransformInterceptor(reflector))
 
   await app.listen(port);
 }

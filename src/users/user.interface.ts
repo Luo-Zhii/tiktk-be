@@ -6,6 +6,5 @@ export class IUser {
     email: string;
     age: number;
     gender: string;
-    address: string;
     refreshToken?: string;
 }

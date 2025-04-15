@@ -40,6 +40,13 @@ export class AuthController {
   }
 
 
+
+  @ResponseMessage("Get user infomation")
+  @Get('/account')
+  async handleGetAccount(@User() user: IUser) {
+    return { user }
+  }
+
   @Public()
   @Get('/refresh')
   async getRefresh(@Req() req: Request, @Res({ passthrough: true }) response){

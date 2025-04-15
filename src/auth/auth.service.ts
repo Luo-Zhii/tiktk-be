@@ -27,14 +27,13 @@ export class AuthService {
   }
 
   async login(user: IUser, response: Response): Promise<any> {
-    const { _id, name, email, address } = user;
+    const { _id, name, email } = user;
     const payload = { 
       sub: 'token login',
       iss: 'from server',
       _id,
       name,
       email,
-      address,
     };
 
     let refreshToken = await this.createRefreshToken(payload);
@@ -92,14 +91,14 @@ export class AuthService {
       if (!user) {
         throw new BadRequestException('Invalid refresh token');
       }
-      const { _id, name, email, address } = user;
+      const { _id, name, email } = user;
       const payload = { 
       sub: 'token login',
       iss: 'from server',
       _id,
       name,
       email,
-      address,
+      
     };
 
     let refresh_token = await this.createRefreshToken(payload);

@@ -33,7 +33,6 @@ export class UsersService {
       password: hashPassword,
       age: createUserDto.age,
       gender: createUserDto.gender,
-      address: createUserDto.address,
       
     });
 
@@ -45,7 +44,7 @@ export class UsersService {
   }
 
   async register(registerModule: RegisterUserDto) {
-    const { name, email, password, age, gender, address } = registerModule;
+    const { name, email, password, age, gender } = registerModule;
     const hashPassword = this.hashPassword(password);
     const newRegister = await this.userModel.create({
       name,
@@ -53,7 +52,6 @@ export class UsersService {
       password: hashPassword,
       age,
       gender,
-      address,
     });
 
     return newRegister;
@@ -115,7 +113,6 @@ export class UsersService {
       email: updateUserDto.email,
       age: updateUserDto.age,
       gender: updateUserDto.gender,
-      address: updateUserDto.address,
     })
   }
 

@@ -1,7 +1,8 @@
+import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -10,13 +11,25 @@ import ms from 'ms';
 import passport from "passport"
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { useContainer } from 'class-validator';
-import { ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from './core/transform.interceptor';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
   );
+
+  // config kafka 
+  const kafkaMicroservice = app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        brokers: ['localhost:9092'],
+      },
+    },
+  });
+  await app.startAllMicroservices();
+
 
   // config class validator
   useContainer(app.select(AppModule), {fallbackOnErrors: true})

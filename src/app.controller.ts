@@ -1,17 +1,21 @@
-import { Controller, Get, Post,  UseGuards, Request, Body, Param, Patch } from '@nestjs/common';
-import { AppService } from './app.service';
-import { UsersService } from './users/users.service';
-import { LocalAuthGuard } from './auth/local-auth.guard';
-import { AuthService } from './auth/auth.service';
-import { Public } from './auth/decorator/jwt_public';
-import { UpdateUserDto } from './users/dto/update-user.dto';
-import { CreateUserDto } from './users/dto/create-user.dto';
+import { Controller, Post, Body, OnModuleInit } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
+import { Inject } from '@nestjs/common';
 
-@Controller()
-export class AppController {
+@Controller('mouse-event')
+export class AppController implements OnModuleInit {
   constructor(
-    private readonly appService: AppService,
-    private readonly usersService: UsersService,
-    private readonly authService: AuthService,
-  ) { }
+    @Inject('MOUSE_LOG_SERVICE') private readonly client: ClientKafka,
+  ) {}
+
+  async onModuleInit() {
+    this.client.subscribeToResponseOf('mouse-log');
+    await this.client.connect();
+  }
+
+  @Post()
+  async logMouse(@Body() data: any) {
+    console.log('📤 Gửi Kafka:', data);
+    return this.client.send('mouse-log', data);
+  }
 }

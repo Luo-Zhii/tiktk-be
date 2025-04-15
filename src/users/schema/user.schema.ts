@@ -21,9 +21,7 @@ export class User {
 
     @Prop()
     gender: string;
-
-    @Prop()
-    address: string;
+    
 
     @Prop()
     refreshToken: string;

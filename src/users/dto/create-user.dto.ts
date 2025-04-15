@@ -25,8 +25,6 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Gender should not empty' })
   gender: string;
 
-  @IsNotEmpty({ message: 'Address should not empty' })
-  address: string;
 
 }
 
@@ -51,7 +49,5 @@ export class RegisterUserDto {
   @IsNotEmpty({ message: 'Gender should not empty' })
   gender: string;
 
-  @IsNotEmpty({ message: 'Address should not empty' })
-  address: string;
 
 }

@@ -1,4 +1,4 @@
-// schemas/mouse-log.schema.ts
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
@@ -8,43 +8,43 @@ export type MouseLogDocument = HydratedDocument<MouseLog>;
 export class MouseLog {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  userId: mongoose.Types.ObjectId; // Liên kết đến User
+  userId: mongoose.Types.ObjectId; 
 
   @Prop()
-  name: string;  // Tên người dùng
+  name: string;  
 
   @Prop()
-  email: string; // Email người dùng
+  email: string; 
 
   @Prop()
-  date: string;  // Ngày ghi lại log
+  date: string;  
 
   @Prop()
-  time: string;  // Thời gian ghi lại log
+  time: string;  
 
   @Prop()
-  duration: number;  // Thời gian người dùng tương tác (có thể tính theo sự kiện)
+  duration: number;  
 
   @Prop()
-  leftClick: boolean;  // Click trái chuột
+  leftClick: boolean;  
 
   @Prop()
-  rightClick: boolean;  // Click phải chuột
+  rightClick: boolean;  
 
   @Prop()
-  middleClick: boolean;  // Click giữa chuột
+  middleClick: boolean;  
 
   @Prop()
-  mouseX: number;  // Tọa độ X của chuột
+  mouseX: number;  
 
   @Prop()
-  mouseY: number;  // Tọa độ Y của chuột
+  mouseY: number;  
 
   @Prop()
-  scrollX: number;  // Vị trí cuộn X
+  scrollX: number;  
 
   @Prop()
-  scrollY: number;  // Vị trí cuộn Y
+  scrollY: number;  
 
 }
 

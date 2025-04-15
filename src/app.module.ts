@@ -27,7 +27,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     }),
     UsersModule,
     AuthModule,
-    // KafkaModule,
     AstraModule,
     MouseLogModule,
     ClientsModule.register([
